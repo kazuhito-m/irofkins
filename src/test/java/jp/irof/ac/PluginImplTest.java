@@ -11,7 +11,8 @@ public class PluginImplTest {
 		// 準備
 		PluginImpl testee = new PluginImpl();
 		// 実行
-		testee.start();
+//		testee.start();
+		fail("tdd test");
 		// 検証
 	}
 
