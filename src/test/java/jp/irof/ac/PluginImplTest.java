@@ -14,6 +14,10 @@ public class PluginImplTest {
 //		testee.start();
 		fail("tdd test");
 		// 検証
+		
+		
+		// テスト失敗させるため「あえての」コンパイルエラー。
+		fail()
 	}
 
 }
