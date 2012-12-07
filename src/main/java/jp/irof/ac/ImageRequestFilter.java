@@ -85,7 +85,7 @@ public class ImageRequestFilter extends PluginServletFilter {
 					String dest = SECCOND_FILTERS.get(src);
 					String replacedPath = path.replaceAll(src, dest);
 					f.write("\nsecand match!");
-					f.write("\nsrc:" + src + " , dest:" + dest + " , replacedPath:" + replasedPath);
+					f.write("\nsrc:" + src + " , dest:" + dest + " , replacedPath:" + replacedPath);
 					((HttpServletResponse) response).sendRedirect(replacedPath);
 					break;
 				}
