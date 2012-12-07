@@ -12,9 +12,20 @@
 	<artifactId>irofkins</artifactId>
 	<version>1.0</version>
 	<packaging>hpi</packaging>
-
-	<!-- get every artifact through repo.jenkins-ci.orgwhich proxies all the
-		artifacts that we need -->
+	<name>irofkins</name>
+	<developers>
+		<developer>
+			<id>kazuhito-m</id>
+			<name>Kazuhito Miura</name>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:git:ssh://github.com/kazuhito-m/irofkins.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/kazuhito-m/irofkins.git</developerConnection>
+		<url>https://github.com/kazuhito-m/irofkins</url>
+	</scm>
+	
 	<repositories>
 		<repository>
 			<id>repo.jenkins-ci.org</id>
