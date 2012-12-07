@@ -69,20 +69,29 @@ public class ImageRequestFilter extends PluginServletFilter {
 			FilterChain chain) throws IOException, ServletException {
 		// 作業用に変数取る。
 		String path = ((HttpServletRequest) request).getRequestURI();
+		
+		// デバッグソース
+		FileWriter f = new FileWriter("./irofkins_test.log");
+		f.write("\npath:" + path);
+			
 		// 一次フィルタリング。
 		// すべてのリクエストに4回ずつ比較は無駄が多そうなので、一つの正規表現で篩にかける。
 		if (FIRST_FILTER.matcher(path).matches()) {
+			f.write("\first match!");
 			// 引っかかったら、二次フィルタリング。
 			// 該当したら、その当該部分だけを文字列置換しリダイレクト。
 			for (String src : SECCOND_FILTERS.keySet()) {
 				if (path.matches(".*" + src)) {
 					String dest = SECCOND_FILTERS.get(src);
 					String replacedPath = path.replaceAll(src, dest);
+					f.write("\nsecand match!");
+					f.write("\nsrc:" + src + " , dest:" + dest + " , replacedPath:" + replasedPath);
 					((HttpServletResponse) response).sendRedirect(replacedPath);
 					break;
 				}
 			}
 		}
+		f.close()
 		chain.doFilter(request, response);
 	}
 
