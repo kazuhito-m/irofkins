@@ -91,7 +91,7 @@ public class ImageRequestFilter extends PluginServletFilter {
 				}
 			}
 		}
-		f.close()
+		f.close();
 		chain.doFilter(request, response);
 	}
 
