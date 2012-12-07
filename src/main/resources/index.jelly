@@ -1,7 +1,4 @@
-<!--
-  This view is used to render the installed plugins page.
--->
 <div>
-  This plugin is The Super Great  Programer "irof" install to your jenkins-ci.<br>
+  This plugin is The Super Great  Programer "irof" install to your jenkins-ci. 
   (It's joke jenkins-plugin for "irof" advent calendar 2012.)
 </div>
