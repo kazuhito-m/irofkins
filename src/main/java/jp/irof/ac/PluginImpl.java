@@ -18,6 +18,8 @@ public class PluginImpl extends Plugin {
 	 */
     @Override
     public void start() throws Exception {
-        PluginServletFilter.addFilter(new ImageRequestFilter());
+    	load();
+    	PluginServletFilter.addFilter(new ImageRequestFilter());
+    	super.start();
     }
 }

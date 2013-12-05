@@ -1,15 +1,18 @@
 package jp.irof.ac;
 
-import org.junit.Ignore;
+import net.sf.json.JSONObject;
+
+import org.junit.Test;
 
 public class PluginImplTest {
 
-	@Ignore
+	@Test
 	public void testStart001() throws Exception {
 		// 準備
-		PluginImpl testee = new PluginImpl();
+		PluginImpl sut = new PluginImpl();
+		sut.configure(null, new JSONObject());
 		// 実行
-		testee.start();
+//		sut.start();
 		// 検証
 		// 通過した(動いた)からよし！
 	}
