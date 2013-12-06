@@ -117,37 +117,17 @@ public class IrofPlugin extends Plugin {
 						// AbstructProjectのインスタンスのみ
 						if (job instanceof AbstractProject) {
 
-							LOGGER.log(Level.INFO, "トリガー判定", status);
-
 							Trigger trigger = ((AbstractProject) job)
 									.getTrigger(IrofTrigger.class);
 							if (trigger != null) {
 								// 「いろふ」実行搭載型が確定。ここから、さらに絞る。
 								IrofTrigger irofTrigger = (IrofTrigger) trigger;
 								// TwitterIDとツイート内に特定の文字が入っていたら。
-
-								LOGGER.log(Level.INFO, "スクリーン名とトリガーのIDを返す:"
-										+ status.getUser().getScreenName()
-										+ ":" + irofTrigger.getTwitterId(),
-										status);
-
 								if (status.getUser().getScreenName()
 										.equals(irofTrigger.getTwitterId())) {
-
-									LOGGER.log(
-											Level.INFO,
-											"次はツイート自体とパターン : "
-													+ irofTrigger
-															.getValidRegexForTweet()
-													+ " : " + status.getText(),
-											status);
-
 									if (matcheOfNoCase(
 											irofTrigger.getValidRegexForTweet(),
 											status.getText())) {
-
-										LOGGER.log(Level.INFO,
-												"すべてを追加した。ビルド命令をOn!", status);
 
 										irofTrigger.run(status);
 									}
