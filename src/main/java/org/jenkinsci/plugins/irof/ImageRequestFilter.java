@@ -1,10 +1,8 @@
-package jp.irof.ac;
+package org.jenkinsci.plugins.irof;
 
 import hudson.util.PluginServletFilter;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;

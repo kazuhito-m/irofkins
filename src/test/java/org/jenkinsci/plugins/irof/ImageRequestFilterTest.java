@@ -1,4 +1,4 @@
-package jp.irof.ac;
+package org.jenkinsci.plugins.irof;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
