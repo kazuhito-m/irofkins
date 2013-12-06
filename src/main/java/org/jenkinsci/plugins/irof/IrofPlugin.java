@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.irof;
 import hudson.Plugin;
 import hudson.model.TopLevelItem;
 import hudson.model.AbstractProject;
+import hudson.triggers.Trigger;
 import hudson.util.PluginServletFilter;
 
 import java.util.List;
@@ -21,6 +22,8 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
+
+import static org.jenkinsci.plugins.irof.JudgeOfJobExecute.*;
 
 public class IrofPlugin extends Plugin {
 
@@ -101,19 +104,53 @@ public class IrofPlugin extends Plugin {
 				@Override
 				public void onStatus(Status status) {
 
-					LOGGER.log(Level.INFO,
-							status.getId() + ":" + status.getText(), status);
+					LOGGER.log(Level.INFO, status.getUser().getScreenName()
+							+ ":" + status.getText(), status);
 
-					if (!status.isRetweet()
-							&& status.getUser().getId() == 14969725L) {
+					// TLからツイート流れてきた。リツイートだけは避ける。
+					if (status.isRetweet()) {
+						return;
+					}
 
-						List<TopLevelItem> items = Jenkins.getInstance()
-								.getItems();
-						for (TopLevelItem item : items) {
-							if (item instanceof AbstractProject) {
-								AbstractProject ab = (AbstractProject) item;
-								if (ab.getTrigger(IrofTrigger.class) != null) {
-									ab.getTrigger(IrofTrigger.class).run();
+					// 全Jenkinsジョブ回す。
+					for (TopLevelItem job : Jenkins.getInstance().getItems()) {
+						// AbstructProjectのインスタンスのみ
+						if (job instanceof AbstractProject) {
+
+							LOGGER.log(Level.INFO, "トリガー判定", status);
+
+							Trigger trigger = ((AbstractProject) job)
+									.getTrigger(IrofTrigger.class);
+							if (trigger != null) {
+								// 「いろふ」実行搭載型が確定。ここから、さらに絞る。
+								IrofTrigger irofTrigger = (IrofTrigger) trigger;
+								// TwitterIDとツイート内に特定の文字が入っていたら。
+
+								LOGGER.log(Level.INFO, "スクリーン名とトリガーのIDを返す:"
+										+ status.getUser().getScreenName()
+										+ ":" + irofTrigger.getTwitterId(),
+										status);
+
+								if (status.getUser().getScreenName()
+										.equals(irofTrigger.getTwitterId())) {
+
+									LOGGER.log(
+											Level.INFO,
+											"次はツイート自体とパターン : "
+													+ irofTrigger
+															.getValidRegexForTweet()
+													+ " : " + status.getText(),
+											status);
+
+									if (matcheOfNoCase(
+											irofTrigger.getValidRegexForTweet(),
+											status.getText())) {
+
+										LOGGER.log(Level.INFO,
+												"すべてを追加した。ビルド命令をOn!", status);
+
+										irofTrigger.run(status);
+									}
 								}
 							}
 						}
@@ -121,7 +158,7 @@ public class IrofPlugin extends Plugin {
 				}
 			};
 			ts.addListener(usa);
-			ts.filter(new FilterQuery().follow(new long[] { 14969725L }));
+			ts.user();
 		}
 	}
 }

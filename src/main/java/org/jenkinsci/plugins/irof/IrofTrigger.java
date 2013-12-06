@@ -13,8 +13,13 @@ import twitter4j.Status;
 
 public class IrofTrigger extends Trigger<BuildableItem> {
 
+	private String twitterId;
+	private String validRegexForTweet;
+	
 	@DataBoundConstructor
-	public IrofTrigger() {
+	public IrofTrigger(String twitterId , String validRegexForTweet) {
+		this.twitterId = twitterId;
+		this.validRegexForTweet = validRegexForTweet;
 	}
 
 	void run(Status status) {
@@ -43,7 +48,7 @@ public class IrofTrigger extends Trigger<BuildableItem> {
 
 		@Override
 		public String getShortDescription() {
-			return "Started by irof";
+			return "Begin Jenkins Job by tweeter tweets.";
 		}
 
 		@Override
@@ -58,6 +63,22 @@ public class IrofTrigger extends Trigger<BuildableItem> {
 		public int hashCode() {
 			return 1623;
 		}
+	}
+
+	public String getTwitterId() {
+		return twitterId;
+	}
+
+	public void setTwitterId(String twitterId) {
+		this.twitterId = twitterId;
+	}
+
+	public String getValidRegexForTweet() {
+		return validRegexForTweet;
+	}
+
+	public void setValidRegexForTweet(String validRegexForTweet) {
+		this.validRegexForTweet = validRegexForTweet;
 	}
 
 }
